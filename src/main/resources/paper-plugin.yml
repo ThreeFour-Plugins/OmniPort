@@ -1,0 +1,25 @@
+name: OmniPort
+version: '1.0'
+main: me.threefour.omniport.OmniPort
+api-version: '1.21'
+authors: [ Amineos ]
+description: Many ports one server with Geyser/Floodgate support
+
+# Dependencies in newer Paper format
+dependencies:
+  server:
+    Geyser-Spigot:
+      load: BEFORE
+      required: false
+    floodgate:
+      load: BEFORE
+      required: false
+
+# Permissions are still defined here
+permissions:
+  omniport.use:
+    description: Allow using basic OmniPort commands
+    default: true
+  omniport.admin:
+    description: Allow using admin OmniPort commands
+    default: op

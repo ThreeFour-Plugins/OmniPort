@@ -1,0 +1,25 @@
+# OmniPort Configuration
+
+# List of ports to listen on (in addition to the main server port)
+# These ports will forward traffic to the main Minecraft server port
+# The main server port (usually 25565) will be automatically excluded
+ports:
+  - 25566
+  - 25567
+  - 25568
+  - 25569
+  - 19132  # Also listen on the default Bedrock port when using Geyser
+
+# Connection settings
+connection:
+  # Maximum time (in milliseconds) to wait for client data before timing out
+  timeout: 30000
+  # Maximum number of concurrent connections across all ports
+  max-connections: 100
+
+# Floodgate integration
+floodgate:
+  # Welcome message for Bedrock players (set to "" to disable)
+  welcome-message: "§aWelcome to the server! You connected via Bedrock Edition using OmniPort."
+  # Whether to show platform icons next to player names (requires a compatible chat plugin)
+  show-platform-icons: true 
