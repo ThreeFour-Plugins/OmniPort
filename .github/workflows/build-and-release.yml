@@ -1,0 +1,79 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+      
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        
+      - name: Build with Gradle
+        run: ./gradlew build
+      
+      - name: Get version from build.gradle
+        id: get_version
+        run: |
+          VERSION=$(grep -o "version = '[^']*'" build.gradle | cut -d "'" -f 2)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Generate Release Body
+        id: release_body
+        run: |
+          cat > release_body.md << 'EOL'
+          # OmniPort ${{ steps.get_version.outputs.VERSION }}
+          
+          ## 🚀 New Release
+          
+          **Version**: ${{ steps.get_version.outputs.VERSION }}
+          **Build Date**: $(date +'%Y-%m-%d')
+          
+          ## 📦 Installation
+          
+          1. Download the JAR file from this release
+          2. Place it in your server's `plugins` folder
+          3. Restart your server
+          4. Configure the plugin in `plugins/OmniPort/config.yml`
+          
+          ## 📋 Features
+          
+          OmniPort allows your Minecraft server to listen on multiple ports simultaneously:
+          - Connect to your server with multiple port options
+          - Support for Geyser and Floodgate integration
+          - Detailed logging and monitoring
+          - Easy configuration options
+          
+          ## 🔄 Changes in this release
+          
+          <!-- Release notes generated automatically -->
+          EOL
+          echo "body=$(cat release_body.md)" >> $GITHUB_OUTPUT
+      
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: OmniPort ${{ steps.get_version.outputs.VERSION }}
+          tag_name: v${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          body_path: release_body.md
+          generate_release_notes: true
+          files: |
+            build/libs/OmniPort-*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

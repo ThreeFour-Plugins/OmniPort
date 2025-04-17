@@ -136,8 +136,8 @@ OmniPort is licensed under the MIT License - see the [LICENSE](LICENSE) file for
 
 ## 🙏 Credits
 
-- **Developer**: [Your Name]
-- **Contributors**: [List of contributors]
+- **Developer**: Amineos
+- **Contributors**: Amineos
 - **Special Thanks**:
   - The Paper team for their amazing server software
   - The Geyser and Floodgate teams for their incredible cross-platform support
