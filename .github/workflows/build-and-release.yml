@@ -34,20 +34,21 @@ jobs:
       - name: Generate Release Body
         id: release_body
         run: |
-          cat > release_body.md << 'EOL'
+          cat > release_body.md << EOF
           # OmniPort ${{ steps.get_version.outputs.VERSION }}
           
           ## 🚀 New Release
           
           **Version**: ${{ steps.get_version.outputs.VERSION }}
+          
           **Build Date**: $(date +'%Y-%m-%d')
           
-          ## 📦 Installation
+          ## Installation
           
           1. Download the JAR file from this release
-          2. Place it in your server's `plugins` folder
+          2. Place it in your server's plugins folder
           3. Restart your server
-          4. Configure the plugin in `plugins/OmniPort/config.yml`
+          4. Configure the plugin in plugins/OmniPort/config.yml
           
           ## 📋 Features
           
@@ -59,9 +60,7 @@ jobs:
           
           ## 🔄 Changes in this release
           
-          <!-- Release notes generated automatically -->
-          EOL
-          echo "body=$(cat release_body.md)" >> $GITHUB_OUTPUT
+          EOF
       
       - name: Create Release
         id: create_release
